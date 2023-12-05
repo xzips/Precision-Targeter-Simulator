@@ -1,3 +1,6 @@
+
+#pragma once
+
 #include <vector>
 
 
@@ -12,30 +15,25 @@ struct Polynomial
 	double domain[2];
 
 	//define a function to evaluate the polynomial
-	double evaluate(double x)
-	{
-		double y = 0;
-		for (int i = 0; i < coefficients.size(); i++)
-		{
-			y += coefficients[i] * pow(x, i);
-		}
-		return y;
-	}
+	double evaluate(double x);
 };
 
 class PerformanceCurve
 {
-	//class enum for voltage, 12VDC, 24VDC, 36VDC, 48VDC
-	enum Voltage {V12, V24, V36, V48};
+public:
+	//class enum for voltage, 12VDC, 24VDC, 36VDC
+	enum Voltage {V12, V24, V36};
 
 	//define for each voltage, holding the polynomial coefficients, and the domain
-	Polynomial V12;
-	Polynomial V24;
-	Polynomial V36;
-	Polynomial V48;
+	Polynomial V12_poly;
+	Polynomial V24_poly;
+	Polynomial V36_poly;
+	//Note only up to 36V is supported, as that's what's within the scope of the project
 
 	PerformanceCurve();
 	
+	double EvaluateTorque(double rpm, Voltage voltage);
+	double GetMaxRPM(Voltage voltage);
 
 
 

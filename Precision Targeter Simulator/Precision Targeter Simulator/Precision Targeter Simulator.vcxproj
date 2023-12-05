@@ -127,11 +127,15 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="InertiaMomentCalculator.cpp" />
     <ClCompile Include="PerformanceCurve.cpp" />
     <ClCompile Include="Precision Targeter Simulator.cpp" />
+    <ClCompile Include="Simulator.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="InertiaMomentCalculator.hpp" />
     <ClInclude Include="PerformanceCurve.hpp" />
+    <ClInclude Include="Simulator.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
