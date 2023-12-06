@@ -2,7 +2,7 @@
 
 #include "PerformanceCurve.hpp"
 #include "InertiaMomentCalculator.hpp"
-
+#include "Simulator.hpp"
 
 int main()
 {
@@ -39,6 +39,13 @@ int main()
 	double inertiaMoment = imc.ComputeTotalMomentOfInertia();
 
 	std::cout << "Total moment of inertia: " << inertiaMoment << " kg*m^2" << std::endl;
+
+	Simulator sim;
+
+	double dt = 0.05;
+	double tmax = 5;
+
+	sim.SetParameters(dt, tmax, PerformanceCurve::Voltage::V24, 1, inertiaMoment, 20);
 
 
 

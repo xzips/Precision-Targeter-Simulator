@@ -27,6 +27,7 @@ public:
 		double time;
 		double theta; //rotation angle
 		double omega; //rotation speed
+		double motor_input; // value in [-1, 1]
 
 
 
@@ -78,6 +79,7 @@ public:
 	//clear the history and reset the state to the initial state
 	void ResetState();
 	
+	void PrintState();
 	
 	void Step(PerformanceCurve& pc);
 	void SimulateHeadless(PerformanceCurve &pc, bool saveHistory = true);

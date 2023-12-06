@@ -2,7 +2,7 @@
 //#include "PerformanceCurve.hpp"
 #include <cmath>
 
-
+#include <iostream>
 
 Simulator::SystemParameters::SystemParameters()
 {
@@ -67,13 +67,34 @@ void Simulator::ResetState() {
     state.theta = parameters.theta0;
     state.omega = parameters.omega0;
     state.time = 0;
+    state.motor_input = parameters.motor_input;
+}
+
+void Simulator::PrintState()
+{
+    std::cout << "T = " << state.time << ", Theta = " << state.theta << ", Omega = " << state.omega << ", Motor Input: " << state.motor_input << "\n";
 }
 
 // Step method
 void Simulator::Step(PerformanceCurve& pc)
 {
+    
+    //Get the motor input for the current step, which is by default the initial setting, but can change if control events are present
+    for (auto& event : control_events) {
+
+        if (event->time <= state.time) {
+            state.motor_input = event->motor_input;
+        }
+        else {
+            break;
+        }
+    }
+
+    
+
+
     double rpm = state.omega * 60 / (2 * 3.14159265);
-    double motor_torque = pc.EvaluateTorque(rpm, parameters.voltage);
+    double motor_torque = state.motor_input * pc.EvaluateTorque(rpm, parameters.voltage);
 
     //angular acceleration due to torque and gear ratio
     double alpha = (motor_torque) / (parameters.I * parameters.gear_ratio);
@@ -88,7 +109,6 @@ void Simulator::Step(PerformanceCurve& pc)
     state.time += parameters.dt;
 
     //save state to history
-
     history.push_back(new SystemState(state));
 }
 
@@ -104,12 +124,8 @@ void Simulator::SimulateHeadless(PerformanceCurve &pc, bool saveHistory)
 
 
 	// Simulate until tmax
-	while (state.time < parameters.tmax) {
-		// Get the motor input at this time
-		double motor_input = GetMotorInput(state.time);
-
-		// Set the motor input
-		parameters.motor_input = motor_input;
+	while (state.time < parameters.tmax)
+    {
 
 		// Step the simulation
 		Step(pc);
