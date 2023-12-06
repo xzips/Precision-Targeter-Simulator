@@ -1,4 +1,15 @@
+/*
+GraphPlot.hpp
+
+Plotting class for basic graphing of data with axes, labels, and titles.
+
+*/
+
+
 #pragma once
+
+
+
 
 #include <vector>
 #include "SFML/Graphics.hpp"

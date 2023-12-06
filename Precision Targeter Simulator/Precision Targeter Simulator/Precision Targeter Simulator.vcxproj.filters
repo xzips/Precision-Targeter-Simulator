@@ -33,10 +33,10 @@
     <ClCompile Include="GraphPlot.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Fonts.cpp">
-      <Filter>Header Files</Filter>
-    </ClCompile>
     <ClCompile Include="Textures.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Fonts.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

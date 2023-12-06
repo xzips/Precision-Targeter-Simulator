@@ -1,3 +1,10 @@
+/*
+GraphPlot.cpp
+
+Plotting class for basic graphing of data with axes, labels, and titles.
+
+*/
+
 #include "GraphPlot.hpp"
 #include "Fonts.hpp"
 #include <sstream>

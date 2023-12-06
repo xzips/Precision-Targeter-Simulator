@@ -1,3 +1,9 @@
+/*
+PerformanceCurve.cpp
+
+Contains the classes and methods to facillitate the evaluation of the torque vs rpm curve of the motor in realtime, by interpolating between the data points in the datasheet, from polynomials fitted externally
+
+*/
 
 
 #include "PerformanceCurve.hpp"

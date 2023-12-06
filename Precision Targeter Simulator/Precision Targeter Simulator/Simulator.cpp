@@ -1,7 +1,15 @@
-#include "Simulator.hpp" // Make sure to include the correct header file name
-//#include "PerformanceCurve.hpp"
-#include <cmath>
+/*
+Simulator.cpp, main file for the simulation including the current state, parameters, control events, history, and stepping function
 
+//NOTE: gear ratio is the ratio of turntable:motor so usually less than 1, 1:20 would be 0.05
+*/
+
+
+
+
+
+#include "Simulator.hpp"
+#include <cmath>
 #include <iostream>
 
 Simulator::SystemParameters::SystemParameters()

@@ -1,3 +1,9 @@
+
+/*
+Main usage file, instantiates the simulator and runs it, then calls the history replay function to visualize the results.
+
+*/
+
 #include <iostream>
 
 #include "PerformanceCurve.hpp"
@@ -50,26 +56,33 @@ int main()
 
 	Simulator sim;
 
-	double dt = 0.05;
+	double dt = 0.025;
 	double tmax = 5;
 	PerformanceCurve::Voltage voltage = PerformanceCurve::Voltage::V24;
 	
 
 
 	
+
 	
+	//slow acceleration, max decceleration test shown in the github .readme
+
+	/*
 	sim.SetParameters(dt, tmax, voltage, 0.5, inertiaMoment, 20);
 	sim.AddControlEvent(3, -1);
 	sim.AddControlEvent(4.545, 0);
-
+	*/
 	
+	//max acceleration, max decceleration test shown in the github .readme
+	/*
 	
-	//sim.SetParameters(dt, tmax, voltage, 1, inertiaMoment, 20);
-	//sim.AddControlEvent(2.5, -1);
+	*/
+	sim.SetParameters(dt, tmax, voltage, 1, inertiaMoment, 20);
+	sim.AddControlEvent(2.5, -1);
 	
 
 	
 	sim.SimulateHeadless(pc, true, false);
-	ReplayHistory(sim.history, dt, tmax, 1);
+	ReplayHistory(sim.history, dt, tmax, 0.5);
 
 }

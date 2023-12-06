@@ -1,3 +1,11 @@
+/*
+Textures.hpp
+
+You will need to modify the paths to the textures to match your system.
+
+*/
+
+
 #pragma once
 
 

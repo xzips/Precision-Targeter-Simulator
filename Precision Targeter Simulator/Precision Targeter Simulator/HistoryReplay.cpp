@@ -1,3 +1,12 @@
+/*
+
+HistoryReplay.cpp
+Single function to load the state history from a simulation, and replay it by instantiating graphs and drawing the gear visualization in real time.
+
+Also includes helper function to draw the gear visualization.
+
+*/
+
 #include "HistoryReplay.hpp"
 #include "SFML/Graphics.hpp"
 #include "GraphPlot.hpp"
@@ -106,7 +115,7 @@ void ReplayHistory(std::vector<Simulator::SystemState *> state_history, double d
 		window.clear(sf::Color::Black);
 
 		
-		DrawGearVisualization(window, gearTheta, 2);
+		DrawGearVisualization(window, gearTheta, 1);
 
 		//draw graphs
 		theta_plot.Draw(window);

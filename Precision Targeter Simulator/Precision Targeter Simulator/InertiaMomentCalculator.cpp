@@ -1,4 +1,14 @@
-//InertialMomentCalculator.cpp, see InertialMomentCalculator.hpp for more info
+/*
+InertialMomentCalculator.cpp
+
+This class is used to define the mass distribution of the rotating mechanism dynamically, as it may change as the prototype is iterated.
+This class also allows automatic computing of the rotational moment of inertia, I, of the rotating mechanism given the mass distribution.
+
+Three mass types are defined: disk mass and hollow cylinder mass.
+
+For each struct, mass is the total mass of that chunk, and distance is the distance from the center of rotation to the center of mass of that chunk.
+Other parameters are self-explanatory.
+*/
 
 #include "InertiaMomentCalculator.hpp"
 

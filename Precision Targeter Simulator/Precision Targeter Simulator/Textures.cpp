@@ -1,3 +1,11 @@
+/*
+Textures.cpp
+
+You will need to modify the paths to the textures to match your system.
+
+*/
+
+
 
 #include "Textures.hpp"
 #include "SFML/Graphics.hpp"
