@@ -74,12 +74,15 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>SFML_STATIC;WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>C:\SFML\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>sfml-graphics-s-d.lib;sfml-window-s-d.lib;sfml-system-s-d.lib;sfml-main-d.lib;opengl32.lib;freetype.lib;winmm.lib;gdi32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:\SFML\lib</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -127,12 +130,18 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Fonts.cpp" />
+    <ClCompile Include="GraphPlot.cpp" />
+    <ClCompile Include="HistoryReplay.cpp" />
     <ClCompile Include="InertiaMomentCalculator.cpp" />
     <ClCompile Include="PerformanceCurve.cpp" />
     <ClCompile Include="Precision Targeter Simulator.cpp" />
     <ClCompile Include="Simulator.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Fonts.hpp" />
+    <ClInclude Include="GraphPlot.hpp" />
+    <ClInclude Include="HistoryReplay.hpp" />
     <ClInclude Include="InertiaMomentCalculator.hpp" />
     <ClInclude Include="PerformanceCurve.hpp" />
     <ClInclude Include="Simulator.hpp" />

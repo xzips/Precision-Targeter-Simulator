@@ -1,2 +1,8 @@
 
 *.vsidx
+*.obj
+*.tlog
+*.ilk
+*.recipe
+*.json
+*.tlog

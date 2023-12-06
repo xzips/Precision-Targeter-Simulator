@@ -82,7 +82,7 @@ public:
 	void PrintState();
 	
 	void Step(PerformanceCurve& pc);
-	void SimulateHeadless(PerformanceCurve &pc, bool saveHistory = true);
+	void SimulateHeadless(PerformanceCurve& pc, bool saveHistory = true, bool printState = false);
 	
 
 

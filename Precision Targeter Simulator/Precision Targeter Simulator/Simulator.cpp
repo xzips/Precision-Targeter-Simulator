@@ -29,7 +29,7 @@ Simulator::Simulator() {
     ResetState();
 }
 
-// SetParameters method
+// SetParameters method, note gear_ratio is turntable:stepper_gear, so 20:1 = 20/1 would be 20
 void Simulator::SetParameters(double dt, double tmax, PerformanceCurve::Voltage voltage, double motor_input, double I, double gear_ratio, double gamma, double theta0, double omega0) {
     parameters.dt = dt;
     parameters.tmax = tmax;
@@ -93,11 +93,28 @@ void Simulator::Step(PerformanceCurve& pc)
     
 
 
-    double rpm = state.omega * 60 / (2 * 3.14159265);
+    double turntable_rpm = state.omega * 60 / (2 * 3.14159265);
+	double rpm = turntable_rpm * parameters.gear_ratio;
+
+	//if rpm exceeds max rpm, set rpm to max rpm
+	if (rpm > pc.GetMaxRPM(parameters.voltage)) {
+		rpm = pc.GetMaxRPM(parameters.voltage);
+        
+	}
+
     double motor_torque = state.motor_input * pc.EvaluateTorque(rpm, parameters.voltage);
+
+	//std::cout << "Motor Torque: " << motor_torque << "\n";
+    //rpm
+	std::cout << "RPM: " << rpm << "\n";
 
     //angular acceleration due to torque and gear ratio
     double alpha = (motor_torque) / (parameters.I * parameters.gear_ratio);
+
+	//if rpm == max rpm, then alpha = 0
+	if (rpm == pc.GetMaxRPM(parameters.voltage)) {
+		alpha = 0;
+	}
 
     //update angular velocity per timestep
     state.omega += alpha * parameters.dt;
@@ -114,13 +131,16 @@ void Simulator::Step(PerformanceCurve& pc)
 
 
 // SimulateHeadless method
-void Simulator::SimulateHeadless(PerformanceCurve &pc, bool saveHistory)
+void Simulator::SimulateHeadless(PerformanceCurve& pc, bool saveHistory, bool printState) 
 {
 // Reset the state
 	ResetState();
 
-    //push initial state to history
-    history.push_back(new SystemState(state));
+
+    //For initial conditions
+    if (saveHistory)history.push_back(new SystemState(state));
+    if (printState) PrintState();
+ 
 
 
 	// Simulate until tmax
@@ -129,6 +149,17 @@ void Simulator::SimulateHeadless(PerformanceCurve &pc, bool saveHistory)
 
 		// Step the simulation
 		Step(pc);
+
+        if (saveHistory)
+        {
+            //push state to history
+            history.push_back(new SystemState(state));
+        }
+
+        if (printState)
+        {
+            PrintState();
+        }
 	}
     
 }
