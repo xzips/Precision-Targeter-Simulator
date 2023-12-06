@@ -13,7 +13,7 @@ Max Acceleration, Zoomed & Slowed  |  Slow Acceleration, Max Decceleration, Zoom
 
 ## **Conext & Motivation**
 
-I've been working on a project very precisely move a camera on planr and pitch rotation, and part of that is determining how to drive the stepper motor to accelerate and deccelerate the spinning turntable mechanism. As it turns out, the torque output vs rpm curve for stepper motors is not linear, and must be measured for each motor. 
+I've been working on a project involving very precisely moving a camera by planar and pitch rotation. Part of that challange is determining how to drive the stepper motor to accelerate and deccelerate the spinning turntable mechanism. As it turns out, the torque output vs rpm curve for steppers is not linear, and must be measured for each motor. Since this curve is nonlinear, the actual calculations become very complicated to do analytically, and for that reason I build this simulator explore the behaviour of the mechanism under different conditions.
 
 
 
