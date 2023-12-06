@@ -27,6 +27,7 @@ public:
 		double time;
 		double theta; //rotation angle
 		double omega; //rotation speed
+		double motor_torque;
 		double motor_input; // value in [-1, 1]
 
 

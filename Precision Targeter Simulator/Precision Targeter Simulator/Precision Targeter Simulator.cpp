@@ -7,11 +7,12 @@
 #include "GraphPlot.hpp"
 #include "Fonts.hpp"
 #include "HistoryReplay.hpp"
-
+#include "Textures.hpp"
 
 int main()
 {
 	G_LoadFont();
+	G_LoadTextures();
 	
 	PerformanceCurve pc;
 
@@ -50,22 +51,25 @@ int main()
 	Simulator sim;
 
 	double dt = 0.05;
-	double tmax = 10;
-	PerformanceCurve::Voltage voltage = PerformanceCurve::Voltage::V12;
+	double tmax = 5;
+	PerformanceCurve::Voltage voltage = PerformanceCurve::Voltage::V24;
 	
 
-	sim.SetParameters(dt, tmax, voltage, 1, inertiaMoment, 20);
+
 	
-	//add control to flip motor at t = 5
-	//sim.AddControlEvent(2, -1);
+	
+	sim.SetParameters(dt, tmax, voltage, 0.5, inertiaMoment, 20);
+	sim.AddControlEvent(3, -1);
+	sim.AddControlEvent(4.545, 0);
 
+	
+	
+	//sim.SetParameters(dt, tmax, voltage, 1, inertiaMoment, 20);
+	//sim.AddControlEvent(2.5, -1);
+	
 
-
+	
 	sim.SimulateHeadless(pc, true, false);
-
-
-	
-	
 	ReplayHistory(sim.history, dt, tmax, 1);
 
 }

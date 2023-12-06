@@ -1,5 +1,8 @@
 #include "GraphPlot.hpp"
 #include "Fonts.hpp"
+#include <sstream>
+#include <iomanip>
+
 GraphPlot::GraphPlot()
 {
 
@@ -58,6 +61,24 @@ void GraphPlot::Clear()
 	ymax = -INFINITY;
 	
 }
+
+std::string floatToString(float value) {
+	std::ostringstream oss;
+
+	// Set precision high enough to handle the fractional part
+	oss << std::fixed << std::setprecision(6) << value;
+
+	std::string str = oss.str();
+
+	// Remove trailing zeros
+	if (str.find('.') != std::string::npos) {
+		str.erase(str.find_last_not_of('0') + 1, std::string::npos);
+		str.erase(str.find_last_not_of('.') + 1, std::string::npos);
+	}
+
+	return str;
+}
+
 
 void GraphPlot::Draw(sf::RenderWindow& window)
 {
@@ -118,8 +139,8 @@ void GraphPlot::Draw(sf::RenderWindow& window)
 
 	//find the biggest power of 10 that is smaller than the max value of x and y
 	//use that to determine the spacing of the tick marks
-	double xtick_spacing = std::pow(10, std::floor(std::log10(xmax)));
-	double ytick_spacing = std::pow(10, std::floor(std::log10(ymax)));
+	double xtick_spacing = std::pow(10, std::floor(std::log10(xmax - xmin)));
+	double ytick_spacing = std::pow(10, std::floor(std::log10(ymax - ymin)));
 
 	
 
@@ -130,26 +151,9 @@ void GraphPlot::Draw(sf::RenderWindow& window)
 	{
 
 
-		//negative y ticks
-		for (double ytick = -ytick_spacing; ytick >= ymin; ytick -= ytick_spacing) {
-			double ytick_pos = effective_y + effective_height * (1 - (ytick - ymin) / (ymax - ymin));
-			sf::RectangleShape ytick_rect(sf::Vector2f(tickLength, lineThickness));
-			ytick_rect.setPosition(effective_x + effective_width * (-xmin) / (xmax - xmin), ytick_pos);
-			ytick_rect.setFillColor(sf::Color::Black);
-			window.draw(ytick_rect);
 
-			// labels
-			sf::Text ytick_text;
-			ytick_text.setFont(*G_font);
-			ytick_text.setString(std::to_string((int)ytick));
-			ytick_text.setCharacterSize(22);
-			ytick_text.setFillColor(sf::Color::Black);
-			sf::FloatRect text_bounds = ytick_text.getLocalBounds();
-			ytick_text.setPosition(effective_x + effective_width * (-xmin) / (xmax - xmin) - text_bounds.width - 5, ytick_pos - text_bounds.height / 2);
-			window.draw(ytick_text);
-		}
-		
-		//negative x ticks
+
+		//positive y ticks
 		for (double ytick = ytick_spacing; ytick <= ymax; ytick += ytick_spacing)
 		{
 			double ytick_pos = effective_y + effective_height * (1 - (ytick - ymin) / (ymax - ymin));
@@ -161,16 +165,44 @@ void GraphPlot::Draw(sf::RenderWindow& window)
 			//labels
 			sf::Text ytick_text;
 			ytick_text.setFont(*G_font);
-			ytick_text.setString(std::to_string((int)ytick));
+			ytick_text.setString(floatToString(ytick));
 			ytick_text.setCharacterSize(22);
 			ytick_text.setFillColor(sf::Color::Black);
 			//get local bounds of text and use that to center it at top of graph with marign
 			sf::FloatRect text_bounds = ytick_text.getLocalBounds();
 			ytick_text.setPosition(effective_x + effective_width * (-xmin) / (xmax - xmin) - text_bounds.width - 5, ytick_pos - text_bounds.height / 2);
-			window.draw(ytick_text);	
-			
+			window.draw(ytick_text);
+
 		}
 
+
+		//negative y ticks
+		for (double ytick = -ytick_spacing; ytick >= ymin; ytick -= ytick_spacing)
+		{
+			double ytick_pos = effective_y + effective_height * (1 - (ytick - ymin) / (ymax - ymin));
+			sf::RectangleShape ytick_rect(sf::Vector2f(tickLength, lineThickness));
+			ytick_rect.setPosition(effective_x + effective_width * (-xmin) / (xmax - xmin), ytick_pos);
+			ytick_rect.setFillColor(sf::Color::Black);
+			window.draw(ytick_rect);
+
+			//labels
+			sf::Text ytick_text;
+			ytick_text.setFont(*G_font);
+			ytick_text.setString(floatToString(ytick));
+			ytick_text.setCharacterSize(22);
+			ytick_text.setFillColor(sf::Color::Black);
+			//get local bounds of text and use that to center it at top of graph with marign
+			sf::FloatRect text_bounds = ytick_text.getLocalBounds();
+			ytick_text.setPosition(effective_x + effective_width * (-xmin) / (xmax - xmin) - text_bounds.width - 5, ytick_pos - text_bounds.height / 2);
+			window.draw(ytick_text);
+
+		}
+
+
+
+
+
+		
 		//positive x ticks
 		for (double xtick = xtick_spacing; xtick <= xmax; xtick += xtick_spacing)
 		{
@@ -183,7 +215,7 @@ void GraphPlot::Draw(sf::RenderWindow& window)
 			//labels
 			sf::Text xtick_text;
 			xtick_text.setFont(*G_font);
-			xtick_text.setString(std::to_string((int)xtick));
+			xtick_text.setString(floatToString(xtick));
 			xtick_text.setCharacterSize(22);
 			xtick_text.setFillColor(sf::Color::Black);
 			//get local bounds of text and use that to center it at top of graph with marign
@@ -191,6 +223,27 @@ void GraphPlot::Draw(sf::RenderWindow& window)
 			xtick_text.setPosition(xtick_pos - text_bounds.width / 2, effective_y + effective_height * (1 - (-ymin) / (ymax - ymin)) + text_bounds.height + 5);
 			window.draw(xtick_text);
 		}
+
+		//also plot zero on y axis if it is in range
+		if (ymin <= 0 and ymax >= 0)
+		{
+			double ytick_pos = effective_y + effective_height * (1 - (-ymin) / (ymax - ymin));
+			sf::RectangleShape ytick_rect(sf::Vector2f(tickLength, lineThickness));
+			ytick_rect.setPosition(effective_x + effective_width * (-xmin) / (xmax - xmin), ytick_pos);
+			ytick_rect.setFillColor(sf::Color::Black);
+			window.draw(ytick_rect);
+
+			//labels
+			sf::Text ytick_text;
+			ytick_text.setFont(*G_font);
+			ytick_text.setString("0");
+			ytick_text.setCharacterSize(22);
+			ytick_text.setFillColor(sf::Color::Black);
+			sf::FloatRect text_bounds = ytick_text.getLocalBounds();
+			ytick_text.setPosition(effective_x + effective_width * (-xmin) / (xmax - xmin) - text_bounds.width - 5, ytick_pos - text_bounds.height / 2);
+			window.draw(ytick_text);
+		}
+	
 
 
 		

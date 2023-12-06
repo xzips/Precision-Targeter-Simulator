@@ -137,6 +137,7 @@
     <ClCompile Include="PerformanceCurve.cpp" />
     <ClCompile Include="Precision Targeter Simulator.cpp" />
     <ClCompile Include="Simulator.cpp" />
+    <ClCompile Include="Textures.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Fonts.hpp" />
@@ -145,6 +146,7 @@
     <ClInclude Include="InertiaMomentCalculator.hpp" />
     <ClInclude Include="PerformanceCurve.hpp" />
     <ClInclude Include="Simulator.hpp" />
+    <ClInclude Include="Textures.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

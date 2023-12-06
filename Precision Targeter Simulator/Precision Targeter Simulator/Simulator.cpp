@@ -68,6 +68,7 @@ void Simulator::ResetState() {
     state.omega = parameters.omega0;
     state.time = 0;
     state.motor_input = parameters.motor_input;
+	state.motor_torque = 0;
 }
 
 void Simulator::PrintState()
@@ -101,18 +102,18 @@ void Simulator::Step(PerformanceCurve& pc)
 		rpm = pc.GetMaxRPM(parameters.voltage);
         
 	}
+	//std::cout << "RPM: " << rpm << "\n";
 
-    double motor_torque = state.motor_input * pc.EvaluateTorque(rpm, parameters.voltage);
+    double motor_torque = state.motor_input * pc.EvaluateTorque(abs(rpm), parameters.voltage);
 
-	//std::cout << "Motor Torque: " << motor_torque << "\n";
     //rpm
-	std::cout << "RPM: " << rpm << "\n";
+	//std::cout << "Motor Torque: " << motor_torque << "\n";
 
     //angular acceleration due to torque and gear ratio
     double alpha = (motor_torque) / (parameters.I * parameters.gear_ratio);
 
 	//if rpm == max rpm, then alpha = 0
-	if (rpm == pc.GetMaxRPM(parameters.voltage)) {
+	if (abs(rpm) == pc.GetMaxRPM(parameters.voltage)) {
 		alpha = 0;
 	}
 
@@ -124,6 +125,8 @@ void Simulator::Step(PerformanceCurve& pc)
 
     //update time
     state.time += parameters.dt;
+
+	state.motor_torque = motor_torque;
 
     //save state to history
     history.push_back(new SystemState(state));
