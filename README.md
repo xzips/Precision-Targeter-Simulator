@@ -11,7 +11,7 @@ Max Acceleration, Zoomed & Slowed  |  Slow Acceleration, Max Decceleration, Zoom
 :-------------------------:|:-------------------------:
 ![4](https://github.com/xzips/Precision-Targeter-Simulator/assets/114827498/76fafce8-db93-447c-9f51-6600c923bfb6) | ![3](https://github.com/xzips/Precision-Targeter-Simulator/assets/114827498/266da83e-c97a-4f17-b49d-175cfe1440d4)
 
-## **Conext & Motivation**
+## **Context & Motivation**
 
 I've been working on a project involving very precisely moving a camera by planar and pitch rotation. Part of that challange is determining how to drive the stepper motor to accelerate and deccelerate the spinning turntable mechanism. As it turns out, the torque output vs rpm curve for steppers is not linear, and must be measured for each motor. Since this curve is nonlinear, the actual calculations become very complicated to do analytically, and for that reason I build this simulator explore the behaviour of the mechanism under different conditions.
 
